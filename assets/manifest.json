@@ -1,0 +1,46 @@
+{
+  "version": "2026.03.20",
+  "agents": {
+    "claude": {
+      "root_file": {
+        "path": "CLAUDE.md",
+        "content": "# Claude Workspace\nFollow the project specification in `.specify/` and keep custom capabilities in `.claude/skills/`.\n",
+        "policy": "never_touch_if_exists"
+      },
+      "directories": [
+        { "path": ".claude/skills" },
+        { "path": ".claude/workflows" }
+      ],
+      "files": []
+    },
+    "codex": {
+      "root_file": {
+        "path": "AGENTS.md",
+        "content": "# Codex Workspace\nFollow the project specification in `.specify/` and keep reusable capabilities in `.agents/skills/`.\n",
+        "policy": "never_touch_if_exists"
+      },
+      "directories": [
+        { "path": ".agents/skills" },
+        { "path": ".agents/subagents" }
+      ],
+      "files": []
+    },
+    "gemini": {
+      "root_file": {
+        "path": "GEMINI.md",
+        "content": "# Gemini Workspace\nFollow the project specification in `.specify/` and store reusable prompts in `.gemini/prompts/`.\n",
+        "policy": "never_touch_if_exists"
+      },
+      "directories": [
+        { "path": ".gemini/prompts" }
+      ],
+      "files": [
+        {
+          "path": ".gemini/agent.json",
+          "content": "{\n  \"mcpServers\": {}\n}\n",
+          "policy": "merge_json"
+        }
+      ]
+    }
+  }
+}
