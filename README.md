@@ -1,4 +1,4 @@
-# tm
+# Template Manager for CLI Agent (tm)
 
 `tm` is a Cargo-based Rust CLI for scaffolding and maintaining agent workspace files.
 
