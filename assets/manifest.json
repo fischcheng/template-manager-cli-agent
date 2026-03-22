@@ -9,21 +9,30 @@
       },
       "directories": [
         { "path": ".claude/skills" },
-        { "path": ".claude/workflows" }
+        { "path": ".claude/agents" },
+        { "path": ".claude/rules" }
       ],
-      "files": []
+      "files": [{
+          "path": ".claude/settings.json",
+          "content": "{\n  \"mcpServers\": {},\n  \"enableAgentSkills\": true\n}\n",
+          "policy": "merge_json"
+        }]
     },
     "codex": {
       "root_file": {
         "path": "AGENTS.md",
-        "content": "# Codex Workspace\nFollow the project specification in `.specify/` and keep reusable capabilities in `.agents/skills/`.\n",
+        "content": "# Codex Workspace\nFollow the project specification in `.specify/` and keep reusable capabilities in `.agents/skills/` and `.agents/subagents/`.\n",
         "policy": "never_touch_if_exists"
       },
       "directories": [
         { "path": ".agents/skills" },
-        { "path": ".agents/subagents" }
+        { "path": ".codex/agents" }
       ],
-      "files": []
+      "files": [{
+          "path": ".codex/config.toml",
+          "content": "[mcp_servers]\n\n[projects.'*']\ntrust_level = \"trusted\"\n",
+          "policy": "create_if_missing"
+        }]
     },
     "gemini": {
       "root_file": {
@@ -32,15 +41,14 @@
         "policy": "never_touch_if_exists"
       },
       "directories": [
-        { "path": ".gemini/prompts" }
+        { "path": ".gemini/skills" },
+        { "path": ".gemini/agents" }
       ],
-      "files": [
-        {
-          "path": ".gemini/agent.json",
-          "content": "{\n  \"mcpServers\": {}\n}\n",
+      "files": [{
+          "path": ".gemini/settings.json",
+          "content": "{\n  \"mcpServers\": {},\n  \"enableAgentSkills\": true\n}\n",
           "policy": "merge_json"
-        }
-      ]
+      }]
     }
   }
 }

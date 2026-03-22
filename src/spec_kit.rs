@@ -21,7 +21,7 @@ pub struct UvxSpecKitProvider;
 
 impl UvxSpecKitProvider {
     pub fn command_args(agent: AgentKind) -> Vec<String> {
-        vec![
+        let mut args = vec![
             "--from".into(),
             "git+https://github.com/github/spec-kit.git".into(),
             "specify".into(),
@@ -29,8 +29,16 @@ impl UvxSpecKitProvider {
             ".".into(),
             "--ai".into(),
             agent.to_string(),
-            "--ignore-agent-tools".into(),
-        ]
+            "--offline".into(),
+        ];
+
+        if matches!(agent, AgentKind::Codex) {
+            args.push("--ai-skills".into());
+        } else {
+            args.push("--ignore-agent-tools".into());
+        }
+
+        args
     }
 }
 
@@ -105,7 +113,7 @@ mod tests {
     use super::UvxSpecKitProvider;
 
     #[test]
-    fn builds_spec_kit_command() {
+    fn builds_spec_kit_command_for_non_codex_agents() {
         let args = UvxSpecKitProvider::command_args(AgentKind::Gemini);
         assert_eq!(
             args,
@@ -117,7 +125,27 @@ mod tests {
                 ".",
                 "--ai",
                 "gemini",
+                "--offline",
                 "--ignore-agent-tools",
+            ]
+        );
+    }
+
+    #[test]
+    fn builds_spec_kit_command_for_codex() {
+        let args = UvxSpecKitProvider::command_args(AgentKind::Codex);
+        assert_eq!(
+            args,
+            vec![
+                "--from",
+                "git+https://github.com/github/spec-kit.git",
+                "specify",
+                "init",
+                ".",
+                "--ai",
+                "codex",
+                "--offline",
+                "--ai-skills",
             ]
         );
     }

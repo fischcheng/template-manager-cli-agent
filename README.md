@@ -22,11 +22,20 @@ The CLI can:
 
 ## Install
 
-Quick install from GitHub Releases:
+Install from GitHub Releases with the hosted installer:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/fischcheng/template-manager-cli-agent/main/install.sh | sh
 ```
+
+If you already cloned this repo, you can use the local installer script instead:
+
+```bash
+chmod +x install.sh
+./install.sh
+```
+
+The installer downloads a prebuilt release archive and installs `tm` to `~/.local/bin` by default.
 
 You can override the repo slug or install location:
 
@@ -40,13 +49,28 @@ To install a specific tagged version:
 curl -fsSL https://raw.githubusercontent.com/fischcheng/template-manager-cli-agent/main/install.sh | TM_VERSION=v0.1.0 sh
 ```
 
-## Build
+## Local Development
+
+Build from source:
 
 ```bash
 cargo build
 ```
 
-## Run
+Install the local source with Cargo:
+
+```bash
+cargo install --path .
+tm --help
+```
+
+Run directly from the repo without installing:
+
+```bash
+cargo run -- --help
+```
+
+## Run Examples
 
 Show help:
 
@@ -64,6 +88,12 @@ Initialize a Claude workspace and try Spec-Kit first:
 
 ```bash
 cargo run -- init claude --with-spec-kit
+```
+
+Initialize a Codex workspace and let Spec-Kit install Codex agent skills first:
+
+```bash
+cargo run -- init codex --with-spec-kit
 ```
 
 Refresh detected agent scaffolds in the current directory:
@@ -84,6 +114,14 @@ Inspect workspace and manifest status:
 cargo run -- doctor
 ```
 
+If you installed with `install.sh` or `cargo install --path .`, you can run the same commands without `cargo run --`:
+
+```bash
+tm init codex --lite
+tm update
+tm doctor
+```
+
 ## Commands
 
 ### `init <agent>`
@@ -93,7 +131,8 @@ Creates the managed workspace files for one agent target.
 Options:
 
 - `--lite`: skip all external tool execution and scaffold using the internal manifest only
-- `--with-spec-kit`: attempt Spec-Kit before applying `tm` normalization
+- `--with-spec-kit`: attempt Spec-Kit before applying `tm` normalization. For Codex, `tm` uses Spec Kit's `--ai-skills` flow.
+- `--with-spec-kit`: attempt Spec-Kit before applying `tm` normalization. `tm` runs Spec Kit in offline mode by default, and for Codex it uses Spec Kit's `--ai-skills` flow.
 
 ### `update`
 

@@ -1,4 +1,5 @@
 use std::env;
+use std::fs;
 use std::path::PathBuf;
 
 use crate::agent::AgentKind;
@@ -37,6 +38,13 @@ fn run_init(
 ) -> Result<(), TmError> {
     let manifest = Manifest::embedded()?;
     let spec_kit = if with_spec_kit && !lite {
+        let entry_count = fs::read_dir(cwd)?.count();
+        if entry_count > 0 {
+            return Err(TmError::SpecKitRequiresEmptyDirectory {
+                path: cwd.clone(),
+                entries: entry_count,
+            });
+        }
         Some(provider.init(cwd, agent)?)
     } else {
         None

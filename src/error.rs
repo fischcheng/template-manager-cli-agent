@@ -21,6 +21,10 @@ pub enum TmError {
     HomeDirectoryUnavailable,
     #[error("check failed: {0}")]
     CheckFailed(String),
+    #[error(
+        "cannot run Spec-Kit in non-empty directory {path}: found {entries} item(s); rerun without --with-spec-kit or use an empty directory"
+    )]
+    SpecKitRequiresEmptyDirectory { path: PathBuf, entries: usize },
     #[error("invalid json merge target at {path}: {message}")]
     InvalidJsonMerge { path: PathBuf, message: String },
 }
